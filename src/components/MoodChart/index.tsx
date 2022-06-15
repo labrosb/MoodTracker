@@ -1,8 +1,9 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
-import { Font } from '../../constants/theme';
 import { useSelector } from '../../state/store';
+import { selectSortedMoodTypes } from '../../state/selectors/moodTypesSelector';
+import { Font } from '../../constants/theme';
 import BaseText from '../Base/Text';
 import ChartBar from './ChartBar';
 import CountCircle, { circleWidthPx, circleMargin } from './CountCircle';
@@ -41,12 +42,9 @@ const BarTitle = styled(BaseText)`
 `;
 
 const MoodCart: React.FC = () => {
-  const moodTypes = useSelector((state) => state.moodTypes);
-  // Won't memoize here because the component renders only when the value needs to update
-  const maxValue = moodTypes.reduce(
-    (total, current) => (total > current.total ? total : current.total),
-    0
-  );
+  const sortedMoodTypes = useSelector(selectSortedMoodTypes);
+
+  const maxValue = sortedMoodTypes[0]?.total || 0;
 
   if (maxValue === 0) {
     return null;
@@ -56,7 +54,7 @@ const MoodCart: React.FC = () => {
     <Container>
       <Title>See your results here!</Title>
       <Content>
-        {moodTypes.map((type) => (
+        {sortedMoodTypes.map((type) => (
           <ChartItem key={`bar-field-${type.id}`}>
             <BarTitle>{type.id}</BarTitle>
             <InlineContainer>
