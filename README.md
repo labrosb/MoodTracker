@@ -2,6 +2,7 @@
 
 ## About the project
 The project is implemented in react-native, with native for more straight forward testing and TypeScript. 
+
 The project uses eslint/tsling rules for easier development and prettier code formatter to enforce consistent coding rules.
 
 ### Architecture decisions
